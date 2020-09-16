@@ -1,5 +1,6 @@
 public class Bug {
 
+    // we create the fields for our bug
     private String direction;
     private int steps;
     private int x;
@@ -9,19 +10,19 @@ public class Bug {
 
     public Bug(Labyrinth labyrinth) {
         this.steps = 0;
-        this.x = 0;
-        this.y = 0;
-        this.direction = "left";
+        this.direction = null;
         this.labyrinth = labyrinth;
+        // we set the x and y values equal to the maze starting point
+        this.x = labyrinth.getxStart();
+        this.y = labyrinth.getyStart();
     }
 
-    public void run(int xStart, int yStart, int xEnd, int yEnd) {
-        setX(xStart);
-        setY(yStart);
+    // we create the method run that calls a while loop that runs until the bug reaches the final destination
+    public void run() {
         int i = 0;
         while (i == 0) {
             move();
-            if ((x == xEnd) && (y == yEnd)) {
+            if ((x == labyrinth.getxEnd()) && (y == labyrinth.getyEnd())) {
                 System.out.println("Success you got out of the maze!!");
                 System.out.println("The bug moved " + getSteps() + " steps through the maze!");
                 System.exit(0);
@@ -29,6 +30,7 @@ public class Bug {
         }
     }
 
+    // this method calls the methods that move the bug
     public void move() {
         if (steps == 0) {
             moveUp();
@@ -53,6 +55,7 @@ public class Bug {
         this.steps = steps+1;
     }
 
+    // this method decides which direction the bug should move
     private String moveDirection() {
         switch (direction) {
             case "up":
@@ -68,6 +71,7 @@ public class Bug {
         return null;
     }
 
+    // this method checks to see if it is possible to move a given direction
     private String check(String ... args) {
 
         for (String direction : args) {
@@ -97,22 +101,7 @@ public class Bug {
         return direction;
     }
 
-    public void test() {
-        System.out.println("x is " + x + ", y is " + y + ".");
-        if (labyrinth.getMaze()[x][y].getLeft().equals(true)) {
-            System.out.println("can go left");
-        }
-        if (labyrinth.getMaze()[x][y].getUp().equals(true)) {
-            System.out.println("can go up");
-        }
-        if (labyrinth.getMaze()[x][y].getRight().equals(true)) {
-            System.out.println("can go right");
-        }
-        if (labyrinth.getMaze()[x][y].getDown().equals(true)) {
-            System.out.println("can go down");
-        }
-    }
-
+    // methods that move the bug in a given direction
     private void moveUp() {
         this.y = y+1;
         this.direction = "up";
